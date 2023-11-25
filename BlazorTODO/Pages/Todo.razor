@@ -1,0 +1,35 @@
+﻿@page "/Todo"
+
+<h3>Todo (@todos.Count(todo=> !todo.IsDone)) </h3>
+
+<ul>
+    @foreach (var todo in todos)
+    {
+        <li> 
+        <input type="checkbox" @bind="todo.IsDone"/>
+        <input @bind="todo.Title"/>
+        </li>
+    }
+</ul>
+
+<input placeholder="Something to do " @bind="newTodo"/>
+<button @onclick="AddTodo">Add todo</button>
+
+@code {
+    //lista u koju ćemo pospremati naše todo-ove (glumi bazu)
+    private List<ToDoItem> todos = new List<ToDoItem>();
+    //string u kojeg ćemo posremiti novi todo
+    private string newTodo;
+
+    private void AddTodo()
+    {
+        //ako je nešto uneseno
+        if(!string.IsNullOrEmpty(newTodo))
+        {
+            //dodaj novi todo u listu
+            todos.Add(new ToDoItem {Title=newTodo });
+            //resetiraj vrijednost na prazan string
+            newTodo = string.Empty;
+        }
+    }
+}

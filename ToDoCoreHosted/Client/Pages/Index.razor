@@ -1,0 +1,42 @@
+﻿@page "/"
+    @if (tasks == null)
+    {
+        <p><em>Loading ... </em></p>
+    }
+    else
+    {
+
+    <h3>To Do (@tasks.Count(todo => !todo.IsDone))</h3>
+
+    <input placeholder="Thing to do" @bind="newTodo" />
+    <button class="btn btn-success" @onclick="AddTask">Add To Do</button>
+
+    <ul>
+        @foreach (var todo in tasks)
+        {
+            <li>
+                <input type="checkbox" checked="@todo.IsDone" @onchange="@(()=>CheckboxChecked(todo))" />
+
+                @{
+                    if (todo.IsDone)
+                    {
+                        <span class="@((todo.IsDone? "completed": ""))">
+                            @todo.Title
+                        </span>
+
+                        //omogući brisanje ako je napravljeno
+                        <button class="btn btn-outline-danger btn sm" title="Deletetask" @onclick="@(()=>DeleteTask(todo))">
+                            <span class="oi oi-trash"></span>
+                        </button>
+                    }
+                    else
+                    {               
+                        <input class="badge-danger" @bind="todo.Title" />
+                    }
+                }
+            </li>
+        }      
+    </ul>
+    }
+
+
